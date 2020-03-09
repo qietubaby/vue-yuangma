@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <p> {{name}} </p>
+    <p k-text="name"></p>
+    <p>{{age}}</p>
+    <p>
+      {{doubleAge}}
+    </p>
+    
+  </div>
+</body>
+
+</html>
+<script src="compile.js"></script>
+<script src="kvue3.js"></script>
+<script>
+  const app = new KVue({
+    el:'#app',
+    data: {
+      name: 'James',
+      age: 30,
+      doubleAge: 60
+    },
+    created() {
+      console.log('开始了')
+      setTimeout(() => {
+        this.name = '我是测试'
+      },1500)
+    }
+
+  });
+
+</script>
