@@ -4,6 +4,8 @@ class Compile {
     
     // 要遍历的宿主节点
     this.$el = document.querySelector(el);
+
+    // kvue的实例
     this.$vm = vm;
 
     console.log(this.$el)
