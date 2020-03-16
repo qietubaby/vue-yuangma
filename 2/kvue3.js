@@ -25,6 +25,9 @@ class KVue {
     // 遍历该对象
     Object.keys(value).forEach(key => {
       this.defineReactive(value, key, value[key]) // 对象，key 值
+      //代理data中的属性到vue实例上
+      this.proxyData(key)
+
     })
   }
 
@@ -37,11 +40,6 @@ class KVue {
 
     // 初始化Dep
     const dep = new Dep();
-
-
-
-
-
     Object.defineProperty(obj, key, {
       get() {
         Dep.target && dep.addDep(Dep.target)
@@ -57,6 +55,19 @@ class KVue {
         dep.notify()
 
 
+      }
+    })
+  }
+
+  // 实现代理 访问this.key就相当于访问this.data.key
+  proxyData(key) {
+    Object.defineProperty(this, key, {
+    
+      get(){
+        return this.$data[key]
+      },
+      set(newVal){
+        this.$data[key] = newVal
       }
     })
   }
@@ -81,12 +92,19 @@ class Dep {
 
 // Watcher
 class Watcher {
-  constructor() {
+  constructor(vm, key, cb) {
+    this.vm = vm;
+    this.key = key;
+    this.cb = cb;
+
     // 将当前watcher实例指定到Dep静态属性target
     Dep.target = this;
+    this.vm[this.key]; //读属性是为了触发getter，添加依赖
+    Dep.target = null; //置空
   }
 
   update () {
-    console.log('属性更新了')
+    // console.log('属性更新了')
+    this.cb.call(this.vm,this.vm[this.key])
   }
 }

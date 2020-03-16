@@ -16,8 +16,9 @@
     <p>
       {{doubleAge}}
     </p>
-
-  </div>
+    <input k-model="name"/>
+    <button @click="change">修改年龄</button>
+    </div>
 </body>
 
 </html>
@@ -29,13 +30,19 @@
     data: {
       name: 'James',
       age: 30,
-      doubleAge: 60
+      doubleAge: 60,
+      name2: 'Fuck'
     },
     created() {
       console.log('开始了')
       setTimeout(() => {
         this.name = '我是测试'
       }, 1500)
+    },
+    methods: {
+      change(){
+        this.age = 80
+      }
     }
 
   });
